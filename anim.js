@@ -2,17 +2,11 @@ window.onload = init;
 
 var stats = new Stats();
 var scene;
-var cube
 var camera;
 var renderer;
 var container = document.getElementById("container");
 var stat = document.getElementById("stat");
-var directionalLight;
-var animation;
-var skinnedMesh;
 var clock = new THREE.Clock();
-var mixer;
-var tree1, tree2;
 
 
 function init() {
@@ -26,10 +20,11 @@ function init() {
     camera.lookAt(new THREE.Vector3())
     controls = new THREE.OrbitControls(camera)
 
-   //tree1 = TREE.Init(scene,15,'pine',4,30,10,0);
-    //tree2 = TREE.Init(scene,10,'pine',2,-30,-10,0);
+
     FOREST.GenerateForest(scene,300,15,15,20,4,6);
-    LIGHTS.init(scene, true);
+
+    var light = new Light(scene, true);
+    var ground = new Ground(scene);
 
 
     renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
@@ -39,16 +34,6 @@ function init() {
     renderer.shadowMap.soft = true;
 
     container.appendChild(renderer.domElement);
-
-    var groundMaterial = new THREE.MeshLambertMaterial({ color: 0xad8e77 });
-    plane = new THREE.Mesh(new THREE.PlaneGeometry(5000, 5000), groundMaterial);
-    plane.rotation.x -= Math.PI / 2;
-    plane.receiveShadow = true;
-    plane.castShadow = true;
-
-
-    scene.add(plane);
-
 
 
     stats.showPanel(1); // 0: fps, 1: ms, 2: mb, 3+: custom
