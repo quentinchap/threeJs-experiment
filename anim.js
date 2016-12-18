@@ -40,7 +40,7 @@ function init() {
 
     container.appendChild(renderer.domElement);
 
-    var groundMaterial = new THREE.MeshLambertMaterial({ color: 0xCC0000 });
+    var groundMaterial = new THREE.MeshLambertMaterial({ color: 0xad8e77 });
     plane = new THREE.Mesh(new THREE.PlaneGeometry(5000, 5000), groundMaterial);
     plane.rotation.x -= Math.PI / 2;
     plane.receiveShadow = true;
