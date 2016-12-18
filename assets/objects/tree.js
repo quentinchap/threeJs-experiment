@@ -2,6 +2,7 @@ class Tree {
 
     constructor(scene, scale, name, duration, x, y, z, rx, ry, rz) {
         var vm = this;
+        this.scene = scene;
         this.loader = new THREE.JSONLoader();
         this.loader.load('assets/3DModels/tree.json', function (geometry, materials) {
 
@@ -37,6 +38,11 @@ class Tree {
 
         });
         return this;
+    }
+
+    destroyTree()
+    {
+        this.scene.remove(this.tree);
     }
 
 

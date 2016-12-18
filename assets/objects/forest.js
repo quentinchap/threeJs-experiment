@@ -1,20 +1,66 @@
-var FOREST = {
-    forest: [],
-    GenerateForest: function (scene, rayon, number, minSize, maxSize,minDuration,maxDuration) {
+class Forest {
+    
+    constructor (scene, rayon, number, minSize, maxSize,minDuration,maxDuration) {
         var i = 0;
-        console.log(number);
-        while (i < number) {
+        this.forest = [];
+        this.scene = scene;
+        this.rayon = rayon;
+        this.number = number;
+        this.minSize = minSize;
+        this.maxSize = maxSize;
+        this.minDuration = minDuration;
+        this.maxDuration = maxDuration;
+
+        while (i < this.number) {
             i++;
-            this.forest.push(new Tree(scene, getRandomInt(minSize,maxSize), 'pine' + i, getRandomInt(minDuration,maxDuration),getRandomPos(rayon),getRandomPos(rayon), 0));
+            this.addTree('pine '+i);
         }
+    }
 
-        //this.forest.push(new TREE(scene, 15, 'pine1', 4, 30, 10, 0,0,Math.PI/4,0) );
-        //this.forest.push(new TREE(scene, 10, 'pine2', 6, -60, 60, 0));
+    generateATree(name)
+    {
+        return new Tree(this.scene, getRandomInt(this.minSize,this.maxSize), name, getRandomInt(this.minDuration,this.maxDuration),getRandomPos(this.rayon),getRandomPos(this.rayon), 0);
+    }
 
-        //this.forest[0].Init(scene, 15, 'pine1', 4, 30, 10, 0);
-        //this.forest[1].Init(scene, 10, 'pine2', 4, -60, 60, 0);
-    },
-    Update: function (delta) {
+    addTree(name)
+    {
+        this.forest.push(this.generateATree(name));
+    }
+
+    removeTree()
+    {
+        
+        var t = this.forest.pop();
+        t.destroyTree();
+    }
+
+    getNumberOfTree()
+    {
+        return this.forest.length;
+    }
+
+    updateForest()
+    {
+        console.log("Update forest. Number: "+this.number+" actual size: "+this.forest.length);   
+        if(this.number < this.forest.length)
+        {
+            console.log("remove tree");
+            while(this.number < this.forest.length)
+            {
+                console.log("Update forest. Number: "+this.number+" actual size: "+this.forest.length);  
+                this.removeTree();
+            }
+        }
+        else if(this.number > this.forest.length)
+        {
+            while(this.number > this.forest.length)
+            {
+                this.addTree('pine '+this.forest.length);
+            }
+        }
+    }
+    
+    update(delta) {
         for (var t of this.forest) {
             //console.log(t.trees);
             t.update(delta);

@@ -7,6 +7,7 @@ var renderer;
 var container = document.getElementById("container");
 var stat = document.getElementById("stat");
 var clock = new THREE.Clock();
+var forest;
 
 
 function init() {
@@ -20,11 +21,11 @@ function init() {
     camera.lookAt(new THREE.Vector3())
     controls = new THREE.OrbitControls(camera)
 
-
-    FOREST.GenerateForest(scene,300,15,15,20,4,6);
-
+    forest = new Forest(scene,300,15,15,20,4,6);
+    
     var light = new Light(scene, true);
     var ground = new Ground(scene);
+    var datGui = new DatGui(forest);
 
 
     renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
@@ -58,7 +59,7 @@ function animate() {
 
     var delta = 0.75 * clock.getDelta();
 
-    FOREST.Update(delta);
+    forest.update(delta);
     requestAnimationFrame(animate);
 
 }
