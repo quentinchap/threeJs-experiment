@@ -1,11 +1,11 @@
-var TREE =
+/*var TREE =
     {
         loader: {},
         trees: null,
         mixer: null,
         animation: null,
-
-        Init: function (scene) {
+        action: null,
+        Init: function (scene,scale,name,duration,x,y,z) {
             this.loader = new THREE.JSONLoader();
             this.trees = new Array();
             this.loader.load('assets/libs/tree.json', function (geometry, materials) {
@@ -18,47 +18,87 @@ var TREE =
                 }
 
                 TREE.trees = new THREE.SkinnedMesh(geometry, new THREE.MultiMaterial(materials));
-                TREE.trees.name = "pine";
+                TREE.trees.name = name;
                 TREE.trees.castShadow = true;
                 TREE.trees.receiveShadow = true;
 
-                TREE.trees.scale.set(15, 15, 15);
+                TREE.trees.scale.set(scale, scale, scale);
+                TREE.trees.position.set(x,z,y);
                 scene.add(TREE.trees);
 
                 TREE.mixer = new THREE.AnimationMixer(TREE.trees);
-                var action = TREE.mixer.clipAction('ArmatureAction.001', TREE.trees);
-                action.play();
+                TREE.action = TREE.mixer.clipAction('ArmatureAction.001', TREE.trees);
+                TREE.action.setDuration(duration);
+                TREE.action.play();
 
-                /*var m = new THREE.SkinnedMesh(geometry, new THREE.MeshFaceMaterial(materials));
-                m.scale.set(15, 15, 15);
-                TREE.trees.push(m);
-                scene.add(m);
-                TREE.Animate(m);*/
             });
+            return this;
         },
-
-        Animate: function (skinnedMesh) {
-            console.log("animate");
-            var materials = skinnedMesh.material.materials;
-
-            for (var k in materials) {
-                materials[k].skinning = true;
-            }
-
-            console.log(THREE.AnimationHandler);
-            THREE.AnimationHandler.add(skinnedMesh.geometry.animation);
-            this.animation = new THREE.Animation(skinnedMesh, "bones", THREE.AnimationHandler.CATMULLROM);
-            this.animation.play();
-        },
-
         Update: function (delta) {
-
-
             if (TREE.mixer) {
-                //console.log(delta);
                 delta = delta * 0.75;
                 TREE.mixer.update(delta);
             }
         }
 
-    };
+    };*/
+
+
+
+
+class TREE {
+
+    constructor(scene, scale, name, duration, x, y, z, rx, ry, rz) {
+        var vm = this;
+        this.loader = new THREE.JSONLoader();
+        this.trees = new Array();
+        this.loader.load('assets/libs/tree.json', function (geometry, materials) {
+
+            materials.skinning = true;
+
+            for (var i of materials) {
+                i.skinning = true;
+            }
+
+            vm.trees = new THREE.SkinnedMesh(geometry, new THREE.MultiMaterial(materials));
+            vm.trees.name = name;
+            vm.trees.castShadow = true;
+            vm.trees.receiveShadow = true;
+
+            vm.trees.scale.set(scale, scale, scale);
+            vm.trees.position.set(x, z, y);
+
+            if (rx) {
+                vm.trees.rotation.x += rx;
+            }
+            if (ry) {
+                vm.trees.rotation.y += ry;
+            }
+            if (rz) {
+                vm.trees.rotation.z += rz;
+            }
+
+            //vm.trees.rotation.set(rx,rz,ry);
+            scene.add(vm.trees);
+
+            vm.mixer = new THREE.AnimationMixer(vm.trees);
+            vm.action = vm.mixer.clipAction('ArmatureAction.001', vm.trees);
+            vm.action.setDuration(duration);
+            vm.action.play();
+
+        });
+        return this;
+    }
+
+    SetMixer(trees) {
+
+    }
+
+    Update(delta) {
+        if (this.mixer) {
+            delta = delta * 0.75;
+            this.mixer.update(delta);
+        }
+    }
+
+}

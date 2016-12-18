@@ -12,6 +12,7 @@ var animation;
 var skinnedMesh;
 var clock = new THREE.Clock();
 var mixer;
+var tree1, tree2;
 
 
 function init() {
@@ -25,7 +26,9 @@ function init() {
     camera.lookAt(new THREE.Vector3())
     controls = new THREE.OrbitControls(camera)
 
-    TREE.Init(scene);
+   //tree1 = TREE.Init(scene,15,'pine',4,30,10,0);
+    //tree2 = TREE.Init(scene,10,'pine',2,-30,-10,0);
+    FOREST.GenerateForest(scene,300,15,15,20,4,6);
     LIGHTS.init(scene, true);
 
 
@@ -70,7 +73,7 @@ function animate() {
 
     var delta = 0.75 * clock.getDelta();
 
-    TREE.Update(delta);
+    FOREST.Update(delta);
     requestAnimationFrame(animate);
 
 }
