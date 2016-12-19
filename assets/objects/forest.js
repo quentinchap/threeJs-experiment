@@ -1,8 +1,8 @@
 class Forest {
     
-    constructor (scene, rayon, number, minSize, maxSize,minDuration,maxDuration) {
-        var i = 0;
+    constructor (camera,scene, rayon, number, minSize, maxSize,minDuration,maxDuration) {
         this.forest = [];
+        this.camera = camera;
         this.scene = scene;
         this.rayon = rayon;
         this.number = number;
@@ -10,7 +10,18 @@ class Forest {
         this.maxSize = maxSize;
         this.minDuration = minDuration;
         this.maxDuration = maxDuration;
+        this.raycaster = new THREE.Raycaster();
+        this.refresh();
 
+    }
+
+    refresh()
+    {
+        var i = 0;
+        while (this.forest.length > 0) 
+        {
+            this.removeTree();
+        }
         while (i < this.number) {
             i++;
             this.addTree('pine '+i);
@@ -19,12 +30,16 @@ class Forest {
 
     generateATree(name)
     {
-        return new Tree(this.scene, getRandomInt(this.minSize,this.maxSize), name, getRandomInt(this.minDuration,this.maxDuration),getRandomPos(this.rayon),getRandomPos(this.rayon), 0);
+        var three = new Tree(this.scene, this.minSize,this.maxSize, name, getRandomInt(this.minDuration,this.maxDuration),this.rayon,false);
+        three.init();
+        return three;
     }
 
     addTree(name)
     {
-        this.forest.push(this.generateATree(name));
+
+        var treeTmp = this.generateATree(name);
+        this.forest.push(treeTmp);
     }
 
     removeTree()
@@ -61,8 +76,8 @@ class Forest {
     }
     
     update(delta) {
+
         for (var t of this.forest) {
-            //console.log(t.trees);
             t.update(delta);
         }
     }

@@ -12,9 +12,11 @@ class DatGui{
         var vm = this;
 
         this.forestController = gui.add(this.forest,'number', 0, 30);
+        this.rayCtrl = gui.add(this.forest,'rayon', 0, 1000);
 
-        this.forestController.onChange(function(value) {
-        // Fires on every change, drag, keypress, etc.
+        this.rayCtrl.onFinishChange(function(value) {
+            vm.forest.rayon = Math.floor(value);
+            vm.forest.refresh();
         });
 
         this.forestController.onFinishChange(function(value) {

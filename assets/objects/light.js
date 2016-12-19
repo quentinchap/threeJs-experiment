@@ -3,23 +3,23 @@ class Light{
     constructor(scene, debug)
     {
     
-        this.ambientLight = new THREE.HemisphereLight(0xaaaaaa, 0x000000, .9);
+        this.ambientLight = new THREE.AmbientLight(0x666666);
         scene.add(this.ambientLight);
 
 
         this.directionalLight = new THREE.DirectionalLight(0xfbfbfb, 0.7);
 
-        this.directionalLight.position.set(500, 300, 200);
+        this.directionalLight.position.set(1000, 300, 200);
         this.directionalLight.target.position.set(0, 1000, 0);
         this.directionalLight.castShadow = true;
-        this.directionalLight.shadow.camera.left = -400;
-        this.directionalLight.shadow.camera.right = 400;
-        this.directionalLight.shadow.camera.top = 400;
-        this.directionalLight.shadow.camera.bottom = -400;
+        this.directionalLight.shadow.camera.left = -2000;
+        this.directionalLight.shadow.camera.right = 2000;
+        this.directionalLight.shadow.camera.top = 2000;
+        this.directionalLight.shadow.camera.bottom = -2000;
         this.directionalLight.shadow.camera.near = 1;
-        this.directionalLight.shadow.camera.far = 1000;
-        this.directionalLight.shadow.mapSize.width = 1000;
-        this.directionalLight.shadow.mapSize.height = 1000;
+        this.directionalLight.shadow.camera.far = 4000;
+        this.directionalLight.shadow.mapSize.width = 4000;
+        this.directionalLight.shadow.mapSize.height = 4000;
 
         this.directionalLight.name = 'directional';
 

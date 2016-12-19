@@ -1,5 +1,7 @@
 window.onload = init;
 
+
+
 var stats = new Stats();
 var scene;
 var camera;
@@ -14,24 +16,34 @@ function init() {
 
     scene = new THREE.Scene();
 
-    camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 1, 1000);
-    camera.position.z = 400;
-    camera.position.y = 400;
-    camera.rotation.y += Math.PI/4;
-    camera.lookAt(new THREE.Vector3())
-    controls = new THREE.OrbitControls(camera)
+    this._camera = new Camera(window);
 
-    forest = new Forest(scene,300,15,15,20,4,6);
+    this.forest = new Forest(camera,scene,300,15,15,20,4,6);
     
     var light = new Light(scene, true);
     var ground = new Ground(scene);
     var datGui = new DatGui(forest);
+
+   /* // Room.
+    const roomGeometry = new THREE.BoxGeometry(100, 20, 100, 100, 20, 100);
+    const roomMaterial = new THREE.MeshBasicMaterial({
+      wireframe: true,
+      opacity: 0.3,
+      transparent: true,
+      side: THREE.BackSide
+    });
+    const room = new THREE.Mesh(roomGeometry, roomMaterial);
+
+    room.position.z = -5;
+
+    scene.add(room);*/
 
 
     renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
     renderer.setPixelRatio(window.devicePixelRatio);
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.shadowMap.enabled = true;
+    renderer.shadowMapType = THREE.PCFSoftShadowMap;
     renderer.shadowMap.soft = true;
 
     container.appendChild(renderer.domElement);
@@ -55,11 +67,11 @@ function animate() {
     // monitored code goes here
 
     stats.end();
-    renderer.render(scene, camera);
+    renderer.render(scene, this._camera.getCamera());
 
     var delta = 0.75 * clock.getDelta();
 
-    forest.update(delta);
+    this.forest.update(delta);
     requestAnimationFrame(animate);
 
 }
