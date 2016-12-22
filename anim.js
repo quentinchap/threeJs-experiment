@@ -18,25 +18,26 @@ function init() {
 
     this._camera = new Camera(window);
 
-    this.forest = new Forest(camera,scene,300,15,15,20,4,6,false);
-    
+    this.forest = new Forest(camera, scene, 300, 15, 15, 20, 4, 6, false);
+
+
     var light = new Light(scene, true);
     var ground = new Ground(scene);
     var datGui = new DatGui(forest);
 
-   /* // Room.
-    const roomGeometry = new THREE.BoxGeometry(100, 20, 100, 100, 20, 100);
-    const roomMaterial = new THREE.MeshBasicMaterial({
-      wireframe: true,
-      opacity: 0.3,
-      transparent: true,
-      side: THREE.BackSide
-    });
-    const room = new THREE.Mesh(roomGeometry, roomMaterial);
-
-    room.position.z = -5;
-
-    scene.add(room);*/
+    /* // Room.
+     const roomGeometry = new THREE.BoxGeometry(100, 20, 100, 100, 20, 100);
+     const roomMaterial = new THREE.MeshBasicMaterial({
+       wireframe: true,
+       opacity: 0.3,
+       transparent: true,
+       side: THREE.BackSide
+     });
+     const room = new THREE.Mesh(roomGeometry, roomMaterial);
+ 
+     room.position.z = -5;
+ 
+     scene.add(room);*/
 
 
     renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
@@ -70,6 +71,7 @@ function animate() {
     renderer.render(scene, this._camera.getCamera());
 
     var delta = 0.75 * clock.getDelta();
+    this._camera._controls.update();
 
     this.forest.update(delta);
     requestAnimationFrame(animate);

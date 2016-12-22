@@ -8,6 +8,7 @@ class Camera
         this._camera.rotation.y += Math.PI/4;
         this._camera.lookAt(new THREE.Vector3())
         this._controls = new THREE.OrbitControls(this._camera)
+        this._controls.enableZoom = false;
     }
 
     getCamera()
