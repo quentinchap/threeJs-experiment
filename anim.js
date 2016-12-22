@@ -18,7 +18,7 @@ function init() {
 
     this._camera = new Camera(window);
 
-    this.forest = new Forest(camera,scene,300,15,15,20,4,6);
+    this.forest = new Forest(camera,scene,300,15,15,20,4,6,false);
     
     var light = new Light(scene, true);
     var ground = new Ground(scene);
@@ -43,7 +43,7 @@ function init() {
     renderer.setPixelRatio(window.devicePixelRatio);
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.shadowMap.enabled = true;
-    renderer.shadowMapType = THREE.PCFSoftShadowMap;
+    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
     renderer.shadowMap.soft = true;
 
     container.appendChild(renderer.domElement);
