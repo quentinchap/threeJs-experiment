@@ -9,7 +9,7 @@ class Light{
 
         this.directionalLight = new THREE.DirectionalLight(0xfbfbfb, 0.7);
 
-        this.directionalLight.position.set(1000, 300, 200);
+        this.directionalLight.position.set(1000, 300, 300);
         this.directionalLight.target.position.set(0, 1000, 0);
         this.directionalLight.castShadow = true;
         this.directionalLight.shadow.camera.left = -2000;

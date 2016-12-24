@@ -18,10 +18,10 @@ function init() {
 
     this._camera = new Camera(window);
 
-    this.forest = new Forest(camera, scene, 300, 15, 15, 20, 4, 6, false);
+    this.forest = new Forest(camera, scene, 900, 30, 10, 20, 4, 6, false);
 
 
-    var light = new Light(scene, true);
+    var light = new Light(scene, false);
     var ground = new Ground(scene);
     var datGui = new DatGui(forest);
 
@@ -68,10 +68,11 @@ function animate() {
     // monitored code goes here
 
     stats.end();
+    this._camera.update();
     renderer.render(scene, this._camera.getCamera());
 
     var delta = 0.75 * clock.getDelta();
-    this._camera._controls.update();
+    
 
     this.forest.update(delta);
     requestAnimationFrame(animate);
