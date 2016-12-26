@@ -7,8 +7,8 @@ class Camera {
         this._camera.lookAt(new THREE.Vector3())
         this._controls = new THREE.OrbitControls(this._camera)
         this._controls.enableZoom = false;
-       // this._controls.minPolarAngle = 0; // radians
-      //  this._controls.maxPolarAngle = Math.PI/2.1; // radians
+        this._controls.minPolarAngle = 0; // radians
+        this._controls.maxPolarAngle = Math.PI/2.1; // radians
     }
 
     getCamera() {

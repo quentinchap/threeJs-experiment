@@ -1,9 +1,14 @@
 class Tree {
 
-    constructor(scene, minSize, maxSize, name, duration, rayon, debug) {
+    constructor(scene, minSize, maxSize, name, duration, rayon, ground, debug) {
 
         this.scene = scene;
         this.loader = new THREE.JSONLoader();
+        this.raycaster = new THREE.Raycaster();
+        this.dir = new THREE.Vector3(0, 1, 0);
+
+        this.dir.normalize();
+
 
 
         this._minSize = minSize;
@@ -20,14 +25,67 @@ class Tree {
 
         this._tryToPlace = 0;
 
+        this._ground = ground;
+
+    }
+
+
+    sign(p1, p2, p3) {
+        return (p1.x - p3.x) * (p2.z - p3.z) - (p2.x - p3.x) * (p1.z - p3.z);
+    }
+
+    pointInTriangle(pt, v1, v2, v3) {
+        var b1, b2, b3;
+
+        b1 = this.sign(pt, v1, v2) < 0.0;
+        b2 = this.sign(pt, v2, v3) < 0.0;
+        b3 = this.sign(pt, v3, v1) < 0.0;
+
+        return ((b1 == b2) && (b2 == b3));
+    }
+
+
+    calcY(p1, p2, p3, x, z) {
+        var det = (p2.z - p3.z) * (p1.x - p3.x) + (p3.x - p2.x) * (p1.z - p3.z);
+
+        var l1 = ((p2.z - p3.z) * (x - p3.x) + (p3.x - p2.x) * (z - p3.z)) / det;
+        var l2 = ((p3.z - p1.z) * (x - p3.x) + (p1.x - p3.x) * (z - p3.z)) / det;
+        var l3 = 1.0 - l1 - l2;
+
+        return l1 * p1.y + l2 * p2.y + l3 * p3.y;
     }
 
     placeTree(tree, minSize, maxSize, rayon) {
         this._tryToPlace += 1;
+        var x = getRandomPos(rayon);
+        var z = getRandomPos(rayon)
+
         var scale = getRandomInt(minSize, maxSize);
         tree.scale.set(scale, scale, scale);
+        tree.position.set(x, 0, z);
 
-        tree.position.set(getRandomPos(rayon), 0, getRandomPos(rayon));
+        //console.log(this._ground.plane.geometry);
+
+        for (var f of this._ground.plane.geometry.faces) {
+            var treePos = tree.getWorldPosition();
+            var v1 = this._ground.plane.geometry.vertices[f.a];
+            var v2 = this._ground.plane.geometry.vertices[f.b];
+            var v3 = this._ground.plane.geometry.vertices[f.c];
+
+
+            if (this.pointInTriangle(treePos, v1, v2, v3)) {
+
+                while (Math.round(this.calcY(v1,v2,v3,tree.position.x,tree.position.z)) > Math.round(tree.position.y)) {
+
+                    tree.position.y += 0.5;
+                }
+
+            }
+        }
+
+
+
+
 
     }
 
@@ -68,7 +126,7 @@ class Tree {
                 scene.add(vm.helper);
             }
 
-            vm.tree.name = name;
+            vm.tree.name = vm._name;
             vm.tree.castShadow = true;
             vm.tree.receiveShadow = true;
 
@@ -100,6 +158,8 @@ class Tree {
                             var box = new THREE.BoxHelper(treeBox, 0xffff00);
                             scene.add(box);
                         }
+
+
 
                         scene.add(vm.tree);
                     }
@@ -141,6 +201,7 @@ class Tree {
 
 
     update(delta) {
+
         if (this.mixer) {
             delta = delta * 0.75;
             this.mixer.update(delta);
