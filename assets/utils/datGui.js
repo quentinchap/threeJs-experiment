@@ -1,27 +1,44 @@
-class DatGui{
-    constructor(forest)
-    {
+class DatGui {
+    constructor(forest, light) {
         this.gui = new dat.GUI();
-        this.forest = forest;
-        this.forestManage('Forest management', this.gui);
+        this.forestManage('Forest management', this.gui, forest);
+        this.lightManagement('Light management', this.gui, light);
     }
 
-    forestManage(objName, gui)
-    {
-        var menu = gui.addFolder(objName);
-        var vm = this;
+    lightManagement(objName, gui, light) {
 
-        this.forestController = gui.add(this.forest,'number', 0, 30);
-        this.rayCtrl = gui.add(this.forest,'rayon', 0, 1000);
+        var lightsMenu = gui.addFolder(objName);
 
-        this.rayCtrl.onFinishChange(function(value) {
-            vm.forest.rayon = Math.floor(value);
-            vm.forest.refresh();
+        var HemisphereMenu = lightsMenu.addFolder("Hemisphere light");
+
+
+        var toggleHemisphere = HemisphereMenu.add(light.lights[0], 'active', false);
+        toggleHemisphere.onFinishChange(function (value) {
+            light.refresh();
         });
 
-        this.forestController.onFinishChange(function(value) {
-            vm.forest.number = Math.floor(value);
-            vm.forest.updateForest();
+        var DirMenu = lightsMenu.addFolder("Directional light");
+        var toggleDirLight = DirMenu.add(light.lights[1], 'active', false);
+        toggleDirLight.onFinishChange(function (value) {
+            light.refresh();
+        });
+
+    }
+
+    forestManage(objName, gui, forest) {
+        var menu = gui.addFolder(objName);
+
+        this.forestController = menu.add(forest, 'number', 0, 50);
+        this.rayCtrl = menu.add(forest, 'rayon', 0, MAP_WIDTH/2);
+
+        this.rayCtrl.onFinishChange(function (value) {
+            forest.rayon = Math.floor(value);
+            forest.refresh();
+        });
+
+        this.forestController.onFinishChange(function (value) {
+            forest.number = Math.floor(value);
+            forest.updateForest();
         });
     }
 }

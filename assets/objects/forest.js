@@ -1,6 +1,6 @@
 class Forest {
     
-    constructor (camera,scene, rayon, number, minSize, maxSize,minDuration,maxDuration,ground,debug) {
+    constructor (camera,scene, rayon, center, number, minSize, maxSize,minDuration,maxDuration,ground,debug) {
         this.forest = [];
         this.camera = camera;
         this.scene = scene;
@@ -13,6 +13,7 @@ class Forest {
         this.raycaster = new THREE.Raycaster();
         this.debug = debug;
         this.ground = ground;
+        this.center = center;
         this.refresh();
 
     }
@@ -32,14 +33,13 @@ class Forest {
 
     generateATree(name)
     {
-        var three = new Tree(this.scene, this.minSize,this.maxSize, name, getRandomInt(this.minDuration,this.maxDuration),this.rayon,this.ground,this.debug);
+        var three = new Tree(this.scene, this.minSize,this.maxSize, name, getRandomInt(this.minDuration,this.maxDuration),this.rayon,this.center,this.ground,this.debug);
         three.init();
         return three;
     }
 
     addTree(name)
     {
-
         var treeTmp = this.generateATree(name);
         this.forest.push(treeTmp);
     }

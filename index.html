@@ -26,6 +26,11 @@
             top: 0; 
             left: 0;
         }
+
+        #container {
+            overflow: hidden;
+            background: linear-gradient(#D0E2E7, #f7d9aa);
+        }
     </style>
 
 
@@ -34,28 +39,32 @@
 
 
 <body>
-<div id="stat"></div>
+    <div id="stat"></div>
 
-<div id="container"></div>
+    <div id="container"></div>
 
-<a href="https://quentinchapelle.com/lab-three-js">Revenir au site</a>
+    <a href="https://quentinchapelle.com/lab-three-js">Revenir au site</a>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/stats.js/r16/Stats.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r83/three.min.js"></script>
-<script src="https://dl.dropboxusercontent.com/u/3587259/Code/Threejs/OrbitControls.js"></script>
-<script src="https://quentinchapelle.com/threeJs/lib-js/dat-gui.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/stats.js/r16/Stats.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r83/three.min.js"></script>
+    <script src="assets/libs/OrbitControls.js"></script>
+    <script src="https://quentinchapelle.com/threeJs/lib-js/dat-gui.js"></script>
 
 
-<script src="assets/utils/randomFunction.js"></script>
-<script src="assets/utils/datGui.js"></script>
+    <script src="assets/utils/randomFunction.js"></script>
+    <script src="assets/utils/datGui.js"></script>
+    <script src="assets/libs/FirstPersonControls.js"></script>
+    
 
-<script src="assets/objects/camera.js"></script>
-<script src="assets/objects/ground.js"></script>
-<script src="assets/objects/tree.js"></script>
-<script src="assets/objects/forest.js"></script>
-<script src="assets/objects/light.js"></script>
+    <script src="assets/objects/camera.js"></script>
+    <script src="assets/objects/ground.js"></script>
+    <script src="assets/objects/tree.js"></script>
+    <script src="assets/objects/forest.js"></script>
+    <script src="assets/objects/light.js"></script>
+    <script src="assets/objects/cloud.js"></script>
+    
 
-<script src="anim.js"></script>
+    <script src="anim.js"></script>
 
 
 </body>

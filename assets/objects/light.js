@@ -1,73 +1,97 @@
 class Light {
 
-    constructor(scene, debug) {
+    refresh() {
+        for (var l of this.lights)
+            if (l.active) {
+                console.log(l);
+                scene.add(l.object);
+            }
+            else {
+                console.error(l);
+                scene.remove(l.object);
+            }
+    }
 
-        this.ambientLight = new THREE.AmbientLight(0x666666, 0.5);
-        this.ambientLight.name = 'ambientLight';
-        scene.add(this.ambientLight);
+    constructor(scene, camera, debug) {
 
-        var x =200;
-        var y = 1000;
+        var x = 100;
+        var y = 500;
 
+        var hemisphereLight = new THREE.HemisphereLight(0xD0E2E7, 0xf7d9aa, .9)
+        hemisphereLight.name = 'ambientLight';
+        //hemisphereLight.intensity= 5;
 
-
-        this.spotLight = new THREE.SpotLight(0xffffff);
-        this.spotLight.position.set(x, 1000, y);
-        this.spotLight.target.position.set(0, 1000, 0);
-        this.spotLight.name = 'spotLight';
-
-        this.spotLight.shadow.mapSize.width = 4000;
-        this.spotLight.shadow.mapSize.height = 4000;
-
-        this.spotLight.castShadow = true;
-
-        this.spotLight.distance = 4000;
-        this.spotLight.shadow.camera.near = 1;
-        this.spotLight.shadow.camera.far = 4000;
-        this.spotLight.shadow.camera.fov = 1000;
-
-        this.spotLight.shadow.camera.left = -2000;
-        this.spotLight.shadow.camera.right = 2000;
-        this.spotLight.shadow.camera.top = 2000;
-        this.spotLight.shadow.camera.bottom = -2000;
-
-        this.spotLight.shadow.darkness = 0.5;
+        var directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
+        directionalLight.position.set(x, 500, y);
+        directionalLight.target.position.set(0, 1000, 0);
+        directionalLight.castShadow = true;
+        
 
 
+        //directionalLight.shadow = new THREE.LightShadow(camera);
+        //directionalLight.shadow.bias = 0.0001;
+        //light.shadow.mapSize.width = 4000;
+        //light.shadow.mapSize.height = 4000;
+        //scene.add(light);
 
 
-        this.directionalLight = new THREE.DirectionalLight(0xfbfbfb, 0.7);
 
-        this.directionalLight.position.set(x, 1000, y);
-        this.directionalLight.target.position.set(0, 1000, 0);
-        this.directionalLight.castShadow = true;
-        this.directionalLight.shadow.camera.left = -2000;
-        this.directionalLight.shadow.camera.right = 2000;
-        this.directionalLight.shadow.camera.top = 2000;
-        this.directionalLight.shadow.camera.bottom = -2000;
-        this.directionalLight.shadow.camera.near = 1;
-        this.directionalLight.shadow.camera.far = 4000;
-        this.directionalLight.shadow.mapSize.width = 4000;
-        this.directionalLight.shadow.mapSize.height = 4000;
+        directionalLight.shadow.camera.left = -400;
+        directionalLight.shadow.camera.right = 400;
+        directionalLight.shadow.camera.top = 400;
+        directionalLight.shadow.camera.bottom = -400;
+        directionalLight.shadow.camera.near = 1;
+        directionalLight.shadow.camera.far = 1000;
+        directionalLight.shadow.darkness = 0.5;
 
-        this.directionalLight.name = 'directional';
+        directionalLight.shadow.mapSize.width = MAP_WIDTH;
+        directionalLight.shadow.mapSize.height = MAP_HEIGHT;
 
-        this.directionalLight2 = new THREE.DirectionalLight(0xfbfbfb, 0.4);
+        directionalLight.name = 'directional';
 
-        this.directionalLight2.position.set(-200, 500, -200);
-        this.directionalLight2.target.position.set(0, 100, 0);
+        this.lights = [];
+
+        this.lights.push({
+            active: true,
+            object: hemisphereLight
+        });
+
+        this.lights.push ({
+            active: true,
+            object: directionalLight,
+            helper: new THREE.DirectionalLightHelper(directionalLight, 50)
+        });
+
+
+
+
+
+
+
+
+        var light = new THREE.PointLight(0xff0000, 1, 100);
+        light.position.set(x, 1000, y);
+
 
 
         if (debug) {
-            //scene.add(new THREE.DirectionalLightHelper(this.directionalLight, 50));
-            //scene.add(new THREE.DirectionalLightHelper(directionalLight2, 50));
+
+            for(var h of this.lights)
+            {
+                if(h.helper)
+                {
+                    scene.add(h.helper)
+                }
+            }
 
         }
         //scene.add(this.spotLight);
-        scene.add(this.directionalLight);
-        scene.add(new THREE.DirectionalLightHelper(this.directionalLight, 50));
-        this._spotLightHelper = new THREE.SpotLightHelper(this.spotLight);
-        scene.add(this._spotLightHelper);
+        //scene.add(this.directionalLight);
+        this.refresh();
+        scene.add(light);
+
+
+
         //scene.add(directionalLight2);
         //scene.add(directionalLight2);
     }

@@ -1,6 +1,6 @@
 class Tree {
 
-    constructor(scene, minSize, maxSize, name, duration, rayon, ground, debug) {
+    constructor(scene, minSize, maxSize, name, duration, rayon, center, ground, debug) {
 
         this.scene = scene;
         this.loader = new THREE.JSONLoader();
@@ -26,6 +26,9 @@ class Tree {
         this._tryToPlace = 0;
 
         this._ground = ground;
+
+        this._center = center;
+
 
     }
 
@@ -57,8 +60,8 @@ class Tree {
 
     placeTree(tree, minSize, maxSize, rayon) {
         this._tryToPlace += 1;
-        var x = getRandomPos(rayon);
-        var z = getRandomPos(rayon)
+        var x = getRandomPos(rayon) + this._center.x;
+        var z = getRandomPos(rayon) + this._center.z;
 
         var scale = getRandomInt(minSize, maxSize);
         tree.scale.set(scale, scale, scale);
@@ -151,15 +154,6 @@ class Tree {
 
 
                     if (!intersect) {
-                        if (vm._debug) {
-                            var treeBox = new THREE.Box3();
-
-                            treeBox.setFromObject(vm.tree);
-                            var box = new THREE.BoxHelper(treeBox, 0xffff00);
-                            scene.add(box);
-                        }
-
-
 
                         scene.add(vm.tree);
                     }
@@ -175,10 +169,6 @@ class Tree {
 
             }
             else {
-                if (vm._debug) {
-                    var box = new THREE.BoxHelper(vm.tree, 0xffff00);
-                    scene.add(box);
-                }
                 scene.add(vm.tree);
             }
 

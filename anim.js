@@ -10,32 +10,48 @@ var container = document.getElementById("container");
 var stat = document.getElementById("stat");
 var clock = new THREE.Clock();
 var forest;
+var forestPosition = {};
+var debug = false;
+
+forestPosition.x = -250;
+forestPosition.z = 100;
+
+var MAP_WIDTH = 2048;
+var MAP_HEIGHT = 2048;
 
 
 function init() {
 
     scene = new THREE.Scene();
+    scene.fog = new THREE.Fog(0xf7d9aa, 200, 500);
 
     this._camera = new Camera(window);
     var ground = new Ground(scene);
 
-    this.forest = new Forest(camera, scene, 900, 30, 10, 20, 4, 6, ground, false);
+    new Cloud(scene,100);
 
-    var axisHelper = new THREE.AxisHelper(500);
-    scene.add(axisHelper);
+    this.forest = new Forest(camera, scene, 200, forestPosition, 50, 2, 5, 4, 6, ground, debug);
+
+    if (debug) {
+        var axisHelper = new THREE.AxisHelper(500);
+        scene.add(axisHelper);
+    }
 
 
-    var light = new Light(scene, false);
-    var datGui = new DatGui(forest);
+    var light = new Light(scene, this._camera.getCamera(), debug);
+    var datGui = new DatGui(forest, light);
 
 
 
-    renderer = new THREE.WebGLRenderer({ alpha: false, antialias: true });
+    renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+
     renderer.setPixelRatio(window.devicePixelRatio);
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.shadowMap.enabled = true;
-    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+    //renderer.shadowMap.type = THREE.BasicShadowMap;
     renderer.shadowMap.soft = true;
+    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+
 
     container.appendChild(renderer.domElement);
 

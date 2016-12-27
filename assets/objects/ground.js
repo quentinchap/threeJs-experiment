@@ -27,12 +27,8 @@ class Ground {
         geometry.uvsNeedUpdate = true;
     }
 
+
     hillGenerator(scene) {
-
-        /*
-Ground generator init
-*/
-
         var geometry = new THREE.Geometry({vertexColors:THREE.FaceColors });
 
         geometry.vertices.push(
@@ -81,21 +77,11 @@ Ground generator init
         mesh.receiveShadow = true;
 
         mesh.position.set(-300, 0, 0);
-        mesh.scale.set(5, 2, 5);
+        mesh.scale.set(2, 1, 2);
 
         this.hill = mesh;
 
         return mesh;
-
-
-        //scene.add(mesh);
-
-
-
-
-
-
-
     }
 
 
@@ -104,8 +90,7 @@ Ground generator init
             var material = new THREE.MeshLambertMaterial({ color: 0xad8e77 });
             var mesh = new THREE.Mesh(geometry, material);
             geometry.computeFaceNormals();
-            //geometry.computeVertexNormals();
-            //mesh.material.side = THREE.DoubleSide;
+
             mesh.name = 'hill';
             mesh.castShadow = true;
             mesh.receiveShadow = true;
@@ -123,12 +108,13 @@ Ground generator init
 
 
         this.loader = new THREE.JSONLoader();
-        var geo = new THREE.PlaneGeometry(5000, 5000);
+        var geo = new THREE.PlaneGeometry(MAP_WIDTH, MAP_HEIGHT);
         geo.rotateX(-Math.PI / 2);
 
         geo.mergeMesh(this.hillGenerator(scene));
 
         this.groundMaterial = new THREE.MeshLambertMaterial({ color: 0xad8e77 });
+
         this.plane = new THREE.Mesh(geo, this.groundMaterial);
         this.plane.receiveShadow = true;
         this.plane.castShadow = true;
