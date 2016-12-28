@@ -3,13 +3,38 @@ class Light {
     refresh() {
         for (var l of this.lights)
             if (l.active) {
-                console.log(l);
+                console.log("Add Light",l);
                 scene.add(l.object);
             }
             else {
-                console.error(l);
+                console.log("Remove Light",l);
                 scene.remove(l.object);
             }
+    }
+
+    loadGui(folder)
+    {
+
+        var vm = this;
+
+        var AmbientMenu = folder.addFolder("Ambient light");
+        var toggleAmbient = AmbientMenu.add(this.lights[0], 'active', false);
+        var ambientIntensity = AmbientMenu.add(this.lights[0].object, 'intensity', -20,20);
+        toggleAmbient.onFinishChange(function (value) {
+            vm.refresh();
+        });
+
+        var HemisphereMenu = folder.addFolder("Hemisphere light");
+        var toggleHemisphere = HemisphereMenu.add(this.lights[2], 'active', false);
+        toggleHemisphere.onFinishChange(function (value) {
+            vm.refresh();
+        });
+
+        var DirMenu = folder.addFolder("Directional light");
+        var toggleDirLight = DirMenu.add(this.lights[1], 'active', false);
+        toggleDirLight.onFinishChange(function (value) {
+            vm.refresh();
+        });
     }
 
     update()
@@ -22,10 +47,12 @@ class Light {
         var x = 100;
         var y = 500;
 
-        var hemisphereLight = new THREE.AmbientLight( 0x404040 );//
-        scene.add(new THREE.HemisphereLight(0xD0E2E7, 0xf7d9aa, .3));
-        hemisphereLight.name = 'ambientLight';
+        var ambientLight = new THREE.AmbientLight( 0x404040 );//
+        ambientLight.name = 'hemisphereLight';
         //hemisphereLight.intensity= 5;
+
+        var hemisphereLight = new THREE.HemisphereLight(0xD0E2E7, 0xf7d9aa, .3);
+        hemisphereLight.name = 'hemisphereLight';
 
         var directionalLight = new THREE.DirectionalLight(0xffffff, 0.9);
         directionalLight.position.set(x, 350, y);
@@ -60,13 +87,18 @@ class Light {
 
         this.lights.push({
             active: true,
-            object: hemisphereLight
+            object: ambientLight
         });
 
         this.lights.push ({
             active: true,
             object: directionalLight,
             helper: new THREE.DirectionalLightHelper(directionalLight, 50)
+        });
+
+        this.lights.push({
+            active: true,
+            object: hemisphereLight
         });
 
 

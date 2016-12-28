@@ -31,6 +31,13 @@
             overflow: hidden;
             background: linear-gradient(#D0E2E7, #f7d9aa);
         }
+
+        #my-gui-container{
+            position: absolute; 
+            top: 0; 
+            right: 0;
+            z-index: 100;
+        }
     </style>
 
 
@@ -41,6 +48,7 @@
 <body>
     <div id="stat"></div>
 
+    <div id="my-gui-container"></div>
     <div id="container"></div>
 
     <a href="https://quentinchapelle.com/lab-three-js">Revenir au site</a>
@@ -54,7 +62,7 @@
     <script src="assets/utils/randomFunction.js"></script>
     <script src="assets/utils/datGui.js"></script>
     <script src="assets/libs/first-person-movement/FirstPersonMovement.js"></script>
-    
+
 
     <script src="assets/objects/camera.js"></script>
     <script src="assets/objects/ground.js"></script>
@@ -62,7 +70,7 @@
     <script src="assets/objects/forest.js"></script>
     <script src="assets/objects/light.js"></script>
     <script src="assets/objects/cloud.js"></script>
-    
+
 
     <script src="anim.js"></script>
 

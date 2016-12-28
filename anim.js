@@ -22,10 +22,21 @@ var MAP_HEIGHT = 2048;
 
 function init() {
 
+    renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+
+    renderer.setPixelRatio(window.devicePixelRatio);
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.shadowMap.enabled = true;
+    //renderer.shadowMap.type = THREE.BasicShadowMap;
+    renderer.shadowMap.soft = true;
+    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+
+    container.appendChild(renderer.domElement);
+
     scene = new THREE.Scene();
     scene.fog = new THREE.Fog(0xf7d9aa, 200, 500);
 
-    this._camera = new Camera(window);
+    this._camera = new Camera(window, container);
     var ground = new Ground(scene);
 
     new Cloud(scene, 100);
@@ -43,17 +54,7 @@ function init() {
 
 
 
-    renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
 
-    renderer.setPixelRatio(window.devicePixelRatio);
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    renderer.shadowMap.enabled = true;
-    //renderer.shadowMap.type = THREE.BasicShadowMap;
-    renderer.shadowMap.soft = true;
-    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-
-
-    container.appendChild(renderer.domElement);
 
 
     stats.showPanel(0); // 0: fps, 1: ms, 2: mb, 3+: custom
