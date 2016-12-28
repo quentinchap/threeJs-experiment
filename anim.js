@@ -28,7 +28,7 @@ function init() {
     this._camera = new Camera(window);
     var ground = new Ground(scene);
 
-    new Cloud(scene,100);
+    new Cloud(scene, 100);
 
     this.forest = new Forest(camera, scene, 200, forestPosition, 50, 2, 5, 4, 6, ground, debug);
 
@@ -38,8 +38,8 @@ function init() {
     }
 
 
-    var light = new Light(scene, this._camera.getCamera(), debug);
-    var datGui = new DatGui(forest, light);
+    this._light = new Light(scene, this._camera.getCamera(), debug);
+    var datGui = new DatGui(forest, this._light);
 
 
 
@@ -81,6 +81,7 @@ function animate() {
 
     var delta = 0.75 * clock.getDelta();
 
+    this._light.update();
 
     this.forest.update(delta);
     requestAnimationFrame(animate);

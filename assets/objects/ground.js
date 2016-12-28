@@ -29,7 +29,7 @@ class Ground {
 
 
     hillGenerator(scene) {
-        var geometry = new THREE.Geometry({vertexColors:THREE.FaceColors });
+        var geometry = new THREE.Geometry({ vertexColors: THREE.FaceColors });
 
         geometry.vertices.push(
             new THREE.Vector3(0, 50, 100), // 0
@@ -118,6 +118,7 @@ class Ground {
         this.plane = new THREE.Mesh(geo, this.groundMaterial);
         this.plane.receiveShadow = true;
         this.plane.castShadow = true;
+        this.plane.emissive = new THREE.Color(0xffffff);
 
         scene.add(this.plane);
 

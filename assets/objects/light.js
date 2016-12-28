@@ -12,19 +12,26 @@ class Light {
             }
     }
 
+    update()
+    {
+        this.lights[1].object.shadow.camera.updateProjectionMatrix();
+    }
+
     constructor(scene, camera, debug) {
 
         var x = 100;
         var y = 500;
 
-        var hemisphereLight = new THREE.HemisphereLight(0xD0E2E7, 0xf7d9aa, .9)
+        var hemisphereLight = new THREE.AmbientLight( 0x404040 );//
+        scene.add(new THREE.HemisphereLight(0xD0E2E7, 0xf7d9aa, .3));
         hemisphereLight.name = 'ambientLight';
         //hemisphereLight.intensity= 5;
 
-        var directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
-        directionalLight.position.set(x, 500, y);
-        directionalLight.target.position.set(0, 1000, 0);
+        var directionalLight = new THREE.DirectionalLight(0xffffff, 0.9);
+        directionalLight.position.set(x, 350, y);
+        directionalLight.target.position.set(0, 0, 0);
         directionalLight.castShadow = true;
+        directionalLight.shadow.cameraVisible = true;
         
 
 
@@ -41,11 +48,11 @@ class Light {
         directionalLight.shadow.camera.top = 400;
         directionalLight.shadow.camera.bottom = -400;
         directionalLight.shadow.camera.near = 1;
-        directionalLight.shadow.camera.far = 1000;
+        directionalLight.shadow.camera.far = MAP_WIDTH +500;
         directionalLight.shadow.darkness = 0.5;
 
-        directionalLight.shadow.mapSize.width = MAP_WIDTH;
-        directionalLight.shadow.mapSize.height = MAP_HEIGHT;
+        directionalLight.shadow.mapSize.width = MAP_WIDTH + 500;
+        directionalLight.shadow.mapSize.height = MAP_HEIGHT + 500;
 
         directionalLight.name = 'directional';
 

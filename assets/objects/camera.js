@@ -1,7 +1,7 @@
 class Camera {
     constructor(window) {
         var vec = new THREE.Vector3();
-        this._camera = new THREE.PerspectiveCamera(100, window.innerWidth / window.innerHeight, 1, 2000);
+        this._camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 1, 10000);
         this._camera.position.z = 50;
         this._camera.position.y = 10;
 
@@ -9,8 +9,8 @@ class Camera {
 
 
 
-        this._camControls = new THREE.FirstPersonControls(this._camera);
-        this._camControls.lookSpeed = 1;
+        this._camControls = new FirstPersonMovement(this._camera,"AZERTY");
+        this._camControls.lookSpeed = 0.5;
         this._camControls.movementSpeed = 50;
         this._camControls.noFly = true;
         this._camControls.lookVertical = true;
