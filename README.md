@@ -6,7 +6,7 @@ Creation of a forest to explore some different ThreeJs functionnality.
 - Morphing
 - Movement
 - Blender model export
-- Lights
+- Lights & shadows
 
 ## Demo
 https://quentinchapelle.com/threeJs/threeJs-morphing-test/
