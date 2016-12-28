@@ -1,6 +1,6 @@
 # Forest
 
-Creation of a forest to explore some different ThreeJs functionnality. 
+Modeling of a forest to explore some different ThreeJs functionnality. 
 
 ## Topic
 - Morphing
