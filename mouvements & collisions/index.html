@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8" />
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<meta name="mobile-web-app-capable" content="yes">
+	<meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+	<script type="text/javascript" charset="utf-8">
+      window.addEventListener('load', function(e) {
+        setTimeout(function() { window.scrollTo(0, 1); }, 1);
+      }, false);
+    </script>
+	<title>VR Sandbox 3D</title>
+	<style>
+		body {
+			margin: 0;
+			padding: 0;
+			overflow: hidden;
+		}
+		
+		#container {
+			position: absolute;
+			width: 100%;
+			height: 100%;
+			overflow: hidden;
+			background: linear-gradient(#8DAEC9, #F4DFBE);
+		}
+		
+		#inset {
+			width: 200px;
+			height: 200px;
+			background-color: #fff;
+			/* or transparent; will show through only if renderer alpha: true */
+			border: 1px solid black;
+			/* or none; */
+			margin: 20px;
+			padding: 0px;
+			position: absolute;
+			left: 0px;
+			bottom: 0px;
+			z-index: 100;
+		}
+	</style>
+
+	
+</head>
+
+<body>
+	<div id="container"></div>
+
+	<script src="lib-js/three.js"></script>
+	<script src="https://cdn.rawgit.com/mrdoob/three.js/master/examples/js/loaders/ColladaLoader.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/tween.js/16.3.5/Tween.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/prototype/1.7.3.0/prototype.js"></script>
+	<script src="lib-js/dat-gui.js"></script>
+	<script src="axes.js"></script>
+	<script src="script.js"></script>
+	
+
+</body>
+
+</html>
